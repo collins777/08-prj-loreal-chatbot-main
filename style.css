@@ -1,4 +1,14 @@
 /* —— basic reset —— */
+:root {
+  /* Colors */
+  --primary-red: #ff003b;
+  --primary-gold: #e3a535;
+  --primary-white: #fff;
+  --primary-black: #000;
+
+  /* Font */
+  --font-luxurious: "Playfair Display", serif;
+}
 * {
   box-sizing: border-box;
   margin: 0;
@@ -11,6 +21,7 @@ body {
   color: #333;
   display: flex;
   justify-content: center;
+  background-color: #e3a535;
 }
 
 .page-wrapper {
@@ -22,17 +33,86 @@ body {
 .site-header {
   text-align: center;
   padding-top: 50px;
+  position: relative; /* Ensure z-index works */
+  z-index: 10; /* Higher than .chatbox and its ::before */
 }
 
 .site-title {
   font-size: 22px;
-  font-weight: 500;
+  font-family: var(--font-luxurious);
+  font-weight: bold;
   margin-bottom: 10px;
 }
 
 /* chat window */
 .chatbox {
   margin: 40px 0;
+  position: relative; /* Needed for absolute positioning of the circle */
+  z-index: 1;
+}
+
+/* Multiple background circles behind the chatbox */
+.chatbox-bg-circles {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: -9999;
+  transform: translate(-50%, -50%);
+}
+
+/* Smallest circle */
+.chatbox-bg-circles::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 300px;
+  height: 300px;
+  background: var(--primary-gold);
+  border: 3px solid var(--primary-gold);
+  border-radius: 50%;
+  opacity: 0.7;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+}
+
+/* Medium circle */
+.chatbox-bg-circles::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 700px;
+  height: 700px;
+  background: var(--primary-gold);
+  border: 3px solid var(--primary-gold);
+  border-radius: 50%;
+  opacity: 0.5;
+  transform: translate(-50%, -50%);
+  z-index: 0;
+}
+
+/* Largest circle - reaches page borders */
+.chatbox-bg-circles .circle-outer {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 1400px;
+  height: 1400px;
+  background: var(--primary-gold);
+  border: 3px solid var(--primary-gold);
+  border-radius: 50%;
+  opacity: 0.3;
+  transform: translate(-50%, -50%);
+  z-index: -1;
+}
+
+/* Remove old .chatbox::before if present, or set to none: */
+.chatbox::before {
+  display: none;
 }
 
 .chat-window {
@@ -44,6 +124,7 @@ body {
   overflow-y: auto;
   background: #fafafa;
   white-space: pre-line;
+  font-family: "Montserrat", Arial, Helvetica, sans-serif;
 }
 
 /* messages */
@@ -81,9 +162,9 @@ body {
 
 .chat-form button {
   font-size: 18px;
-  background: #000;
+  background: var(--primary-black);
   color: #fff;
-  border: none;
+  border: 2px solid var(--primary-gold);
   padding: 12px;
   width: 48px;
   height: 48px;
@@ -91,7 +172,7 @@ body {
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: background 0.5s, border-color 0.3s;
 }
 
 .chat-form button .material-icons {
@@ -99,7 +180,8 @@ body {
 }
 
 .chat-form button:hover {
-  background: #666666;
+  background: var(--primary-gold);
+  border: 2px solid var(--primary-black);
 }
 
 .chat-form button:focus {
@@ -136,8 +218,91 @@ body {
   margin: 0 8px;
   color: #000;
   text-decoration: none;
+  transition: color 0.3s;
 }
 
 .site-footer a:hover {
-  color: #666666;
+  color: var(--primary-red);
+}
+
+/* Full-page background with expanding circles */
+.bg-circles {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -10000;
+  pointer-events: none;
+  background: var(--primary-white);
+  /* Center the circles using flex */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.bg-circles::before,
+.bg-circles::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  border-radius: 50%;
+  border: 3px solid var(--primary-gold);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  opacity: 0.2; /* Same opacity for all circles */
+}
+
+/* Largest circle */
+.bg-circles::before {
+  width: 120vw;
+  height: 120vw;
+}
+
+/* Medium circle */
+.bg-circles::after {
+  width: 100vw;
+  height: 100vw;
+}
+
+/* Multiple inner circles for a complete look */
+.bg-circles .circle-1,
+.bg-circles .circle-2,
+.bg-circles .circle-3,
+.bg-circles .circle-4,
+.bg-circles .circle-5 {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  border-radius: 50%;
+  border: 3px solid var(--primary-gold);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  opacity: 0.2; /* Same opacity for all circles */
+}
+
+.bg-circles .circle-1 {
+  width: 80vw;
+  height: 80vw;
+}
+
+.bg-circles .circle-2 {
+  width: 65vw;
+  height: 65vw;
+}
+
+.bg-circles .circle-3 {
+  width: 50vw;
+  height: 50vw;
+}
+
+.bg-circles .circle-4 {
+  width: 35vw;
+  height: 35vw;
+}
+
+.bg-circles .circle-5 {
+  width: 20vw;
+  height: 20vw;
 }
