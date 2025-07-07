@@ -4,7 +4,7 @@ const userInput = document.getElementById("userInput");
 const chatWindow = document.getElementById("chatWindow");
 
 // Set initial message - create a message bubble for the AI greeting
-chatWindow.innerHTML = `<div class="msg-bubble ai">👋 Hello, I'm L'Oré. What can I help you with today?</div>`;
+chatWindow.innerHTML = `<div class="msg-bubble ai">👋 Hello, I'm L'Oré. How can I help you today?</div>`;
 
 ////////////////////////////////////
 
